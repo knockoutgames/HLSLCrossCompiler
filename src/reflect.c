@@ -9,6 +9,7 @@
 
 static void FormatVariableName(char* Name)
 {
+    const int NameLen = strlen(Name);
     /* MSDN http://msdn.microsoft.com/en-us/library/windows/desktop/bb944006(v=vs.85).aspx
        The uniform function parameters appear in the
        constant table prepended with a dollar sign ($),
@@ -26,6 +27,18 @@ static void FormatVariableName(char* Name)
         {
             Name[0] = '_';
         }
+    }
+    
+    /* Double underscore is reserved for intrinsic variables.
+       If we detect that then shift change it to a single underscore. */
+    if(NameLen > 3 && Name[0] == '_' && Name[1] == '_' && Name[2] != '_')
+    {
+        int i = 0;
+        for (; i < (NameLen-1); ++i)
+        {
+            Name[i] = Name[i+1];
+        }
+        Name[i] = '\0';
     }
 }
 
@@ -233,8 +246,18 @@ static void ReadShaderVariableType(const uint32_t ui32MajorVersion,
 
     varType->Class = (SHADER_VARIABLE_CLASS)pui16Tokens[0];
     varType->Type = (SHADER_VARIABLE_TYPE)pui16Tokens[1];
-    varType->Rows = pui16Tokens[2];
-    varType->Columns = pui16Tokens[3];
+    // These types of variables are padded up to mat4.
+    if ( (varType->Class == SVC_MATRIX_COLUMNS || varType->Class == SVC_MATRIX_ROWS)
+        && varType->Type == SVT_FLOAT) 
+    {
+        varType->Rows = 4;
+        varType->Columns = 4;
+    }
+    else
+    {
+        varType->Rows = pui16Tokens[2];
+        varType->Columns = pui16Tokens[3];
+    }
     varType->Elements = pui16Tokens[4];
 
     varType->MemberCount = ui32MemberCount = pui16Tokens[5];

@@ -1536,7 +1536,7 @@ void TranslateDeclaration(HLSLCrossCompilerContext* psContext, const Declaration
                 }
                 case NAME_VERTEX_ID:
                 {
-                    AddBuiltinInput(psContext, psDecl, "gl_VertexID");
+                    AddBuiltinInput(psContext, psDecl, "uint(gl_VertexID)");
                     break;
                 }
                 case NAME_PRIMITIVE_ID:
