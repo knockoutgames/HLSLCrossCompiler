@@ -843,7 +843,7 @@ static void TranslateVariableNameWithMask(HLSLCrossCompilerContext* psContext, c
 	else if (ui32TOFlag & TO_AUTO_EXPAND_TO_VEC4)
 		requestedComponents = 4;
 
-	requestedComponents = max(requestedComponents, numComponents);
+	requestedComponents = (int)fmax(requestedComponents, numComponents);
 
     *pui32IgnoreSwizzle = 0;
 

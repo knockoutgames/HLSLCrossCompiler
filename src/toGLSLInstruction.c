@@ -192,7 +192,7 @@ static void AddComparision(HLSLCrossCompilerContext* psContext, Instruction* psI
 	if (s0ElemCount != s1ElemCount)
 	{
 		// Set the proper auto-expand flag is either argument is scalar
-		typeFlag |= (TO_AUTO_EXPAND_TO_VEC2 << (max(s0ElemCount, s1ElemCount)-2));
+		typeFlag |= (TO_AUTO_EXPAND_TO_VEC2 << ( (uint32_t)fmax(s0ElemCount, s1ElemCount)-2));
 	}
 
 	if (psContext->psShader->ui32MajorVersion < 4)
