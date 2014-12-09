@@ -402,6 +402,7 @@ uint32_t DecodeOperand (const uint32_t *pui32Tokens, Operand* psOperand)
     }
 
     psOperand->pszSpecialName[0] ='\0';
+    psOperand->eSpecialName = NAME_UNDEFINED;
 
     return ui32NumTokens;
 }

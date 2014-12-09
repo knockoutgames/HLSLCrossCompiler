@@ -4,6 +4,10 @@ PROJECT (HLSLCrossCompilerProj C CXX)
 
 option(FORCE32 "Force a 32bit compile on 64bit" ON)
 
+if("${CMAKE_SYSTEM}" MATCHES "Linux")
+    set(LINUX ON)
+endif()
+
 if(FORCE32)
     if(LINUX)
         set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32")
